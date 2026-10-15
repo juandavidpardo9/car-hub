@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BrandController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,8 +18,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Test admin
 Route::middleware(['auth', 'admin'])->get('/admin', function () {
     return 'Route admin';
+});
+//Ruta brands
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('brands', BrandController::class)->except('show');
 });
 
 require __DIR__.'/auth.php';
